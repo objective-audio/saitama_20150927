@@ -1,5 +1,5 @@
 //
-//  YASAudioUnitSample.h
+//  AudioUnitGeneratorSample.h
 //  YASiOS9AudioUnitOutputSample
 //
 //  Created by Yuki Yasoshima on 2015/09/20.
@@ -9,14 +9,14 @@
 #import <AudioUnit/AudioUnit.h>
 #import <AVFoundation/AVFoundation.h>
 
-static const Float64 kSampleRate = 44100.0;
-static const UInt32 kChannels = 2;
+NS_ASSUME_NONNULL_BEGIN
 
-@interface YASAudioUnitSample : AUAudioUnit
+@interface AudioUnitGeneratorSample : AUAudioUnit
 
 + (AudioComponentDescription)audioComponentDescription;
 
-- (AVAudioFormat *)format;
-- (void)setRenderCallback:(void (^)(AVAudioPCMBuffer *))renderCallback;
+- (void)setRenderBlock:(void (^)(AVAudioPCMBuffer *))renderBlock;
 
 @end
+
+NS_ASSUME_NONNULL_END

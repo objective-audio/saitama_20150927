@@ -7,7 +7,7 @@
 //
 
 #import "ViewController.h"
-#import "YASAudioUnitSample.h"
+#import "AudioUnitGeneratorSample.h"
 #import <Accelerate/Accelerate.h>
 
 Float32 fill_sine(Float32 *out_data, const UInt32 length, const Float64 start_phase, const Float64 phase_per_frame)
@@ -51,17 +51,19 @@ Float32 fill_sine(Float32 *out_data, const UInt32 length, const Float64 start_ph
 
     // 非同期でAVAudioUnit（AVAudioNode）を生成する
     [AVAudioUnit
-        instantiateWithComponentDescription:[YASAudioUnitSample audioComponentDescription]
+        instantiateWithComponentDescription:[AudioUnitGeneratorSample audioComponentDescription]
                                     options:0
                           completionHandler:^(__kindof AVAudioUnit *_Nullable audioUnit, NSError *_Nullable error) {
                               if (!audioUnit) {
                                   return;
                               }
 
-                              YASAudioUnitSample *sampleUnit = (YASAudioUnitSample *)audioUnit.AUAudioUnit;
+                              NSLog(@"AudioUnitGeneratorSample instantiated");
+
+                              AudioUnitGeneratorSample *sampleUnit = (AudioUnitGeneratorSample *)audioUnit.AUAudioUnit;
 
                               __block Float64 phase = 0;
-                              [sampleUnit setRenderCallback:^(AVAudioPCMBuffer *buffer) {
+                              [sampleUnit setRenderBlock:^(AVAudioPCMBuffer *buffer) {
                                   AVAudioFormat *format = buffer.format;
                                   const Float64 currentPhase = phase;
                                   const Float64 phasePerFrame = 1000.0 / format.sampleRate * 2.0 * M_PI;
@@ -71,8 +73,20 @@ Float32 fill_sine(Float32 *out_data, const UInt32 length, const Float64 start_ph
                                   }
                               }];
 
+                              NSLog(@"AudioUnitGeneratorSample prev attach");
+
                               [self.engine attachNode:audioUnit];
-                              [self.engine connect:audioUnit to:self.engine.mainMixerNode format:sampleUnit.format];
+
+                              NSLog(@"AudioUnitGeneratorSample post attach");
+                              NSLog(@"AudioUnitGeneratorSample prev connect");
+
+                              const Float64 sampleRate = [AVAudioSession sharedInstance].sampleRate;
+                              AVAudioFormat *format =
+                                  [[AVAudioFormat alloc] initStandardFormatWithSampleRate:sampleRate channels:2];
+
+                              [self.engine connect:audioUnit to:self.engine.mainMixerNode format:format];
+
+                              NSLog(@"AudioUnitGeneratorSample post connect");
 
                               NSError *localError = nil;
 
@@ -81,9 +95,48 @@ Float32 fill_sine(Float32 *out_data, const UInt32 length, const Float64 start_ph
                                   return;
                               }
 
+                              NSLog(@"AudioUnitGeneratorSample prev start");
+
                               if (![self.engine startAndReturnError:&localError]) {
                                   NSLog(@"%@", localError);
                               }
+
+                              NSLog(@"AudioUnitGeneratorSample post start");
+
+                              dispatch_queue_t queue = dispatch_queue_create("sample_sequence", DISPATCH_QUEUE_SERIAL);
+                              dispatch_async(queue, ^{
+                                  [NSThread sleepForTimeInterval:3.0];
+
+                                  dispatch_async(dispatch_get_main_queue(), ^{
+                                      NSLog(@"AudioUnitGeneratorSample prev stop");
+                                      [self.engine stop];
+                                      NSLog(@"AudioUnitGeneratorSample post stop");
+                                  });
+
+                                  [NSThread sleepForTimeInterval:1.0];
+
+                                  dispatch_async(dispatch_get_main_queue(), ^{
+                                      NSLog(@"AudioUnitGeneratorSample prev start");
+                                      [self.engine startAndReturnError:nil];
+                                      NSLog(@"AudioUnitGeneratorSample post start");
+                                  });
+
+                                  [NSThread sleepForTimeInterval:1.0];
+
+                                  dispatch_async(dispatch_get_main_queue(), ^{
+                                      NSLog(@"AudioUnitGeneratorSample prev disconnect");
+                                      [self.engine disconnectNodeInput:self.engine.mainMixerNode];
+                                      NSLog(@"AudioUnitGeneratorSample post disconnect");
+                                  });
+
+                                  [NSThread sleepForTimeInterval:1.0];
+
+                                  dispatch_async(dispatch_get_main_queue(), ^{
+                                      NSLog(@"AudioUnitGeneratorSample prev connect");
+                                      [self.engine connect:audioUnit to:self.engine.mainMixerNode format:format];
+                                      NSLog(@"AudioUnitGeneratorSample post connect");
+                                  });
+                              });
                           }];
 }
 

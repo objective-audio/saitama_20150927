@@ -15,7 +15,7 @@
 		B64E053C1BAE99B3006610DE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B64E053A1BAE99B3006610DE /* LaunchScreen.storyboard */; };
 		B64E05471BAE99B3006610DE /* YASiOS9AudioUnitOutputSampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B64E05461BAE99B3006610DE /* YASiOS9AudioUnitOutputSampleTests.m */; };
 		B64E05521BAE99B3006610DE /* YASiOS9AudioUnitOutputSampleUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = B64E05511BAE99B3006610DE /* YASiOS9AudioUnitOutputSampleUITests.m */; };
-		B64E05611BAE99EA006610DE /* YASAudioUnitSample.m in Sources */ = {isa = PBXBuildFile; fileRef = B64E05601BAE99EA006610DE /* YASAudioUnitSample.m */; settings = {ASSET_TAGS = (); }; };
+		B64E05611BAE99EA006610DE /* AudioUnitGeneratorSample.m in Sources */ = {isa = PBXBuildFile; fileRef = B64E05601BAE99EA006610DE /* AudioUnitGeneratorSample.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,8 +52,8 @@
 		B64E054D1BAE99B3006610DE /* YASiOS9AudioUnitOutputSampleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YASiOS9AudioUnitOutputSampleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B64E05511BAE99B3006610DE /* YASiOS9AudioUnitOutputSampleUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YASiOS9AudioUnitOutputSampleUITests.m; sourceTree = "<group>"; };
 		B64E05531BAE99B3006610DE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B64E055F1BAE99EA006610DE /* YASAudioUnitSample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YASAudioUnitSample.h; sourceTree = "<group>"; };
-		B64E05601BAE99EA006610DE /* YASAudioUnitSample.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YASAudioUnitSample.m; sourceTree = "<group>"; };
+		B64E055F1BAE99EA006610DE /* AudioUnitGeneratorSample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioUnitGeneratorSample.h; sourceTree = "<group>"; };
+		B64E05601BAE99EA006610DE /* AudioUnitGeneratorSample.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioUnitGeneratorSample.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,8 +108,8 @@
 				B64E05301BAE99B3006610DE /* AppDelegate.m */,
 				B64E05321BAE99B3006610DE /* ViewController.h */,
 				B64E05331BAE99B3006610DE /* ViewController.m */,
-				B64E055F1BAE99EA006610DE /* YASAudioUnitSample.h */,
-				B64E05601BAE99EA006610DE /* YASAudioUnitSample.m */,
+				B64E055F1BAE99EA006610DE /* AudioUnitGeneratorSample.h */,
+				B64E05601BAE99EA006610DE /* AudioUnitGeneratorSample.m */,
 				B64E05351BAE99B3006610DE /* Main.storyboard */,
 				B64E05381BAE99B3006610DE /* Assets.xcassets */,
 				B64E053A1BAE99B3006610DE /* LaunchScreen.storyboard */,
@@ -275,7 +275,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B64E05611BAE99EA006610DE /* YASAudioUnitSample.m in Sources */,
+				B64E05611BAE99EA006610DE /* AudioUnitGeneratorSample.m in Sources */,
 				B64E05341BAE99B3006610DE /* ViewController.m in Sources */,
 				B64E05311BAE99B3006610DE /* AppDelegate.m in Sources */,
 				B64E052E1BAE99B3006610DE /* main.m in Sources */,
